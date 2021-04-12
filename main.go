@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"os"
 	"time"
 
@@ -10,11 +11,29 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/favicon"
 	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/joho/godotenv"
 
 	"adrift-backend/apis/index"
+	"adrift-backend/configuration"
+	"adrift-backend/database"
 )
 
 func main() {
+	env := os.Getenv("ENV")
+	if env != configuration.Environments.Heroku {
+		envError := godotenv.Load()
+		if envError != nil {
+			log.Fatal(envError)
+			return
+		}
+	}
+
+	databaseError := database.Connect()
+	if databaseError != nil {
+		log.Fatal(databaseError)
+		return
+	}
+
 	app := fiber.New()
 
 	// middlewares
