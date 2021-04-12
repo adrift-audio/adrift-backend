@@ -1,5 +1,11 @@
 package configuration
 
+type ClientsStruct struct {
+	Desktop string
+	Mobile  string
+	Web     string
+}
+
 type EnvironmentsStruct struct {
 	Development string
 	Heroku      string
@@ -7,5 +13,15 @@ type EnvironmentsStruct struct {
 }
 
 type ResponseMessagesStruct struct {
-	Ok string
+	EmailAlreadyInUse   string
+	InternalServerError string
+	InvalidData         string
+	InvalidEmail        string
+	MissingData         string
+	Ok                  string
+}
+
+type RolesStruct struct {
+	Admin string
+	User  string
 }
