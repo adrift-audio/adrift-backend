@@ -2,6 +2,8 @@ package auth
 
 import (
 	"fmt"
+	"os"
+	"strconv"
 	"strings"
 
 	"github.com/gofiber/fiber/v2"
@@ -17,6 +19,13 @@ func signUpController(ctx *fiber.Ctx) error {
 	var body SignUpBodyStruct
 	bodyParsingError := ctx.BodyParser(&body)
 	if bodyParsingError != nil {
+		if fmt.Sprint(bodyParsingError) == "Unprocessable Entity" {
+			return utilities.Response(utilities.ResponseParams{
+				Ctx:    ctx,
+				Info:   configuration.ResponseMessages.MissingData,
+				Status: fiber.StatusBadRequest,
+			})
+		}
 		return utilities.Response(utilities.ResponseParams{
 			Ctx:    ctx,
 			Info:   configuration.ResponseMessages.InternalServerError,
@@ -126,8 +135,8 @@ func signUpController(ctx *fiber.Ctx) error {
 			Status: fiber.StatusInternalServerError,
 		})
 	}
+	fmt.Println(secret)
 
-	// create a new Image record and insert it
 	NewUserSecret := new(Schemas.UserSecret)
 	NewUserSecret.ID = ""
 	NewUserSecret.Secret = secret
@@ -143,7 +152,58 @@ func signUpController(ctx *fiber.Ctx) error {
 		})
 	}
 
+	PasswordCollection := DB.Instance.Database.Collection(DB.Collections.Password)
+
+	hash, hashError := utilities.MakeHash(trimmedPassword)
+	if hashError != nil {
+		return utilities.Response(utilities.ResponseParams{
+			Ctx:    ctx,
+			Info:   configuration.ResponseMessages.InternalServerError,
+			Status: fiber.StatusInternalServerError,
+		})
+	}
+
+	NewPassword := new(Schemas.Password)
+	NewPassword.ID = ""
+	NewPassword.Hash = hash
+	NewPassword.RecoveryCode = ""
+	NewPassword.UserId = createdUser.ID
+	NewPassword.Created = now
+	NewPassword.Updated = now
+	_, insertionError = PasswordCollection.InsertOne(ctx.Context(), NewPassword)
+	if insertionError != nil {
+		return utilities.Response(utilities.ResponseParams{
+			Ctx:    ctx,
+			Info:   configuration.ResponseMessages.InternalServerError,
+			Status: fiber.StatusInternalServerError,
+		})
+	}
+
+	expiration, expirationError := strconv.Atoi(os.Getenv("TOKEN_EXPIRATION"))
+	if expirationError != nil {
+		expiration = configuration.DefaultTokenExpiration
+	}
+	token, tokenError := utilities.GenerateJWT(utilities.GenerateJWTParams{
+		Client:    trimmedClient,
+		ExpiresIn: int64(expiration),
+		Secret:    secret,
+		UserId:    createdUser.ID,
+	})
+	if tokenError != nil {
+		return utilities.Response(utilities.ResponseParams{
+			Ctx:    ctx,
+			Info:   configuration.ResponseMessages.InternalServerError,
+			Status: fiber.StatusInternalServerError,
+		})
+	}
+
+	// TODO: store data in Redis
+
 	return utilities.Response(utilities.ResponseParams{
 		Ctx: ctx,
+		Data: fiber.Map{
+			"token": token,
+			"user":  createdUser,
+		},
 	})
 }

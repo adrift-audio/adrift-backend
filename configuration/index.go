@@ -6,6 +6,8 @@ var Clients = ClientsStruct{
 	Web:     "web",
 }
 
+var DefaultTokenExpiration = 99999
+
 var Environments = EnvironmentsStruct{
 	Development: "development",
 	Heroku:      "heroku",
@@ -17,6 +19,7 @@ var ResponseMessages = ResponseMessagesStruct{
 	InternalServerError: "INTERNAL_SERVER_ERROR",
 	InvalidData:         "INVALID_DATA",
 	InvalidEmail:        "INVALID_EMAIL",
+	InvalidToken:        "INVALID_TOKEN",
 	MissingData:         "MISSING_DATA",
 	Ok:                  "OK",
 }

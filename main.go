@@ -13,6 +13,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/joho/godotenv"
 
+	"adrift-backend/apis/auth"
 	"adrift-backend/apis/index"
 	"adrift-backend/configuration"
 	"adrift-backend/database"
@@ -36,7 +37,6 @@ func main() {
 
 	app := fiber.New()
 
-	// middlewares
 	app.Use(cors.New())
 	app.Use(compress.New())
 	app.Use(favicon.New(favicon.Config{
@@ -48,15 +48,14 @@ func main() {
 	}))
 	app.Use(logger.New())
 
+	auth.Setup(app)
 	index.Setup(app)
 
-	// get the port
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "5611"
 	}
 
-	// launch the app
 	launchError := app.Listen(":" + port)
 	if launchError != nil {
 		panic(launchError)

@@ -17,6 +17,7 @@ type ResponseMessagesStruct struct {
 	InternalServerError string
 	InvalidData         string
 	InvalidEmail        string
+	InvalidToken        string
 	MissingData         string
 	Ok                  string
 }
