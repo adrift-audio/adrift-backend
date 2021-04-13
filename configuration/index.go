@@ -15,6 +15,7 @@ var Environments = EnvironmentsStruct{
 }
 
 var ResponseMessages = ResponseMessagesStruct{
+	AccessDenied:        "ACCESS_DENIED",
 	EmailAlreadyInUse:   "EMAIL_IS_ALREADY_IN_USE",
 	InternalServerError: "INTERNAL_SERVER_ERROR",
 	InvalidData:         "INVALID_DATA",

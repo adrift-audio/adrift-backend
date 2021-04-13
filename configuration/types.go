@@ -13,6 +13,7 @@ type EnvironmentsStruct struct {
 }
 
 type ResponseMessagesStruct struct {
+	AccessDenied        string
 	EmailAlreadyInUse   string
 	InternalServerError string
 	InvalidData         string

@@ -135,7 +135,6 @@ func signUpController(ctx *fiber.Ctx) error {
 			Status: fiber.StatusInternalServerError,
 		})
 	}
-	fmt.Println(secret)
 
 	NewUserSecret := new(Schemas.UserSecret)
 	NewUserSecret.ID = ""
