@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/julyskies/gohelpers"
 	"go.mongodb.org/mongo-driver/bson"
 
 	"adrift-backend/configuration"
@@ -66,8 +67,8 @@ func signInController(ctx *fiber.Ctx) error {
 		})
 	}
 
-	clients := utilities.Values(configuration.Clients)
-	if !utilities.IncludesString(clients, trimmedClient) {
+	clients := gohelpers.ObjectValues(configuration.Clients)
+	if !gohelpers.IncludesString(clients, trimmedClient) {
 		return utilities.Response(utilities.ResponseParams{
 			Ctx:    ctx,
 			Info:   configuration.ResponseMessages.InvalidData,

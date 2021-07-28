@@ -1,12 +1,14 @@
 package auth
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"strconv"
 	"strings"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/julyskies/gohelpers"
 	"go.mongodb.org/mongo-driver/bson"
 
 	"adrift-backend/configuration"
@@ -39,6 +41,12 @@ func signUpController(ctx *fiber.Ctx) error {
 	lastName := body.LastName
 	password := body.Password
 	signedAgreement := body.SignedAgreement
+
+	utilities.SendEmail(
+		email,
+		"Welcome to Adrift!",
+		"Hello "+firstName+"!\r\n"+"Welcome to Adrift!",
+	)
 
 	if client == "" || email == "" || firstName == "" ||
 		lastName == "" || password == "" || !signedAgreement {
@@ -73,8 +81,8 @@ func signUpController(ctx *fiber.Ctx) error {
 		})
 	}
 
-	clients := utilities.Values(configuration.Clients)
-	if !utilities.IncludesString(clients, trimmedClient) {
+	clients := gohelpers.ObjectValues(configuration.Clients)
+	if !gohelpers.IncludesString(clients, trimmedClient) {
 		return utilities.Response(utilities.ResponseParams{
 			Ctx:    ctx,
 			Info:   configuration.ResponseMessages.InvalidData,
@@ -196,7 +204,29 @@ func signUpController(ctx *fiber.Ctx) error {
 		})
 	}
 
-	// TODO: store data in Redis
+	redisError := utilities.RedisClient.Set(
+		context.Background(),
+		utilities.KeyFormatter(
+			configuration.Redis.Prefixes.Secret,
+			createdUser.ID,
+		),
+		secret,
+		configuration.Redis.TTL,
+	).Err()
+	if redisError != nil {
+		return utilities.Response(utilities.ResponseParams{
+			Ctx:    ctx,
+			Info:   configuration.ResponseMessages.InternalServerError,
+			Status: fiber.StatusInternalServerError,
+		})
+	}
+
+	// TODO: templates for emails
+	utilities.SendEmail(
+		email,
+		"Welcome to Adrift!",
+		"Hello "+firstName+"!\r\n"+"Welcome to Adrift!",
+	)
 
 	return utilities.Response(utilities.ResponseParams{
 		Ctx: ctx,

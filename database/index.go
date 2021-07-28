@@ -2,6 +2,7 @@ package database
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"os"
 	"time"
@@ -14,7 +15,7 @@ var Instance MongoInstance
 
 var Collections CollectionsStruct
 
-func Connect() error {
+func ConnectMongo() error {
 	databaseConnection := os.Getenv("DATABASE_CONNECTION_STRING")
 	databaseName := os.Getenv("DATABASE_NAME")
 
@@ -51,6 +52,8 @@ func Connect() error {
 		User:       "User",
 		UserSecret: "UserSecret",
 	}
+
+	fmt.Println("-- database: connected")
 
 	return nil
 }

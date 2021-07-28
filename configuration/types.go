@@ -1,5 +1,7 @@
 package configuration
 
+import "time"
+
 type ClientsStruct struct {
 	Desktop string
 	Mobile  string
@@ -12,6 +14,16 @@ type EnvironmentsStruct struct {
 	Production  string
 }
 
+type RedisPrefixes struct {
+	Room   string
+	Secret string
+	User   string
+}
+
+type RedisStruct struct {
+	Prefixes RedisPrefixes
+	TTL      time.Duration
+}
 type ResponseMessagesStruct struct {
 	AccessDenied        string
 	EmailAlreadyInUse   string

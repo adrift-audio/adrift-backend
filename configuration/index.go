@@ -1,5 +1,7 @@
 package configuration
 
+import "time"
+
 var Clients = ClientsStruct{
 	Desktop: "desktop",
 	Mobile:  "mobile",
@@ -12,6 +14,15 @@ var Environments = EnvironmentsStruct{
 	Development: "development",
 	Heroku:      "heroku",
 	Production:  "production",
+}
+
+var Redis = RedisStruct{
+	Prefixes: RedisPrefixes{
+		Room:   "room",
+		Secret: "secret",
+		User:   "user",
+	},
+	TTL: 24 * time.Hour,
 }
 
 var ResponseMessages = ResponseMessagesStruct{

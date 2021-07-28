@@ -17,6 +17,7 @@ import (
 	"adrift-backend/apis/index"
 	"adrift-backend/configuration"
 	"adrift-backend/database"
+	"adrift-backend/utilities"
 )
 
 func main() {
@@ -29,9 +30,15 @@ func main() {
 		}
 	}
 
-	databaseError := database.Connect()
+	databaseError := database.ConnectMongo()
 	if databaseError != nil {
 		log.Fatal(databaseError)
+		return
+	}
+
+	redisError := utilities.ConnectRedis()
+	if redisError != nil {
+		log.Fatal(redisError)
 		return
 	}
 

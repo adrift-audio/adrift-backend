@@ -1,11 +1,13 @@
 module adrift-backend
 
-go 1.16
+go 1.15
 
 require (
-	github.com/alexedwards/argon2id v0.0.0-20210326052512-e2135f7c9c77
+	github.com/alexedwards/argon2id v0.0.0-20210511081203-7d35d68092b8
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
-	github.com/gofiber/fiber/v2 v2.7.1
+	github.com/go-redis/redis/v8 v8.11.0
+	github.com/gofiber/fiber/v2 v2.15.0
 	github.com/joho/godotenv v1.3.0
-	go.mongodb.org/mongo-driver v1.5.1
+	github.com/julyskies/gohelpers v0.0.0-20210524124839-9e3cfee55184
+	go.mongodb.org/mongo-driver v1.7.0
 )
