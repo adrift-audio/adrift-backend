@@ -221,11 +221,14 @@ func signUpController(ctx *fiber.Ctx) error {
 		})
 	}
 
-	// TODO: templates for emails
+	emailTemplate := utilities.CreateWelcomeTemplate(
+		createdUser.FirstName,
+		createdUser.LastName,
+	)
 	utilities.SendEmail(
-		email,
-		"Welcome to Adrift!",
-		"Hello "+firstName+"!\r\n"+"Welcome to Adrift!",
+		createdUser.Email,
+		emailTemplate.Subject,
+		emailTemplate.Message,
 	)
 
 	return utilities.Response(utilities.ResponseParams{

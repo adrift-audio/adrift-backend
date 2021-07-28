@@ -33,6 +33,7 @@ var ResponseMessages = ResponseMessagesStruct{
 	InvalidEmail:        "INVALID_EMAIL",
 	InvalidToken:        "INVALID_TOKEN",
 	MissingData:         "MISSING_DATA",
+	MissingToken:        "MISSING_TOKEN",
 	Ok:                  "OK",
 }
 

@@ -32,6 +32,7 @@ type ResponseMessagesStruct struct {
 	InvalidEmail        string
 	InvalidToken        string
 	MissingData         string
+	MissingToken        string
 	Ok                  string
 }
 

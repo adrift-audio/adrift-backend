@@ -24,3 +24,8 @@ type ResponseParams struct {
 	Info   string
 	Status int
 }
+
+type Template struct {
+	Message string
+	Subject string
+}

@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"strconv"
@@ -154,7 +155,22 @@ func signInController(ctx *fiber.Ctx) error {
 		})
 	}
 
-	// TODO: store data in Redis
+	redisError := utilities.RedisClient.Set(
+		context.Background(),
+		utilities.KeyFormatter(
+			configuration.Redis.Prefixes.Secret,
+			userRecord.ID,
+		),
+		userSecretRecord.Secret,
+		configuration.Redis.TTL,
+	).Err()
+	if redisError != nil {
+		return utilities.Response(utilities.ResponseParams{
+			Ctx:    ctx,
+			Info:   configuration.ResponseMessages.InternalServerError,
+			Status: fiber.StatusInternalServerError,
+		})
+	}
 
 	return utilities.Response(utilities.ResponseParams{
 		Ctx: ctx,
