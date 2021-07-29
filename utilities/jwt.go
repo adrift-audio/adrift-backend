@@ -2,12 +2,27 @@ package utilities
 
 import (
 	"errors"
+	"strings"
 	"time"
 
-	JWT "github.com/dgrijalva/jwt-go"
+	JWT "github.com/golang-jwt/jwt"
 
 	"adrift-backend/configuration"
 )
+
+func DecodePayload(token string) ([]byte, error) {
+	partials := strings.Split(token, ".")
+	if len(partials) != 3 {
+		return nil, errors.New("Invalid token")
+	}
+
+	bytePayload, decodeError := JWT.DecodeSegment(partials[1])
+	if decodeError != nil {
+		return nil, decodeError
+	}
+
+	return bytePayload, nil
+}
 
 func GenerateJWT(params GenerateJWTParams) (string, error) {
 	expiration := params.ExpiresIn * 24 * 60 * 60

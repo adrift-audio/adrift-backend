@@ -1,8 +1,8 @@
 package utilities
 
 import (
-	JWT "github.com/dgrijalva/jwt-go"
 	"github.com/gofiber/fiber/v2"
+	JWT "github.com/golang-jwt/jwt"
 )
 
 type GenerateJWTParams struct {

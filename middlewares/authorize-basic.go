@@ -2,6 +2,7 @@ package middlewares
 
 import (
 	"context"
+	"encoding/json"
 	"strings"
 
 	"github.com/go-redis/redis/v8"
@@ -28,6 +29,25 @@ func Authorize(ctx *fiber.Ctx) error {
 		return utilities.Response(utilities.ResponseParams{
 			Ctx:    ctx,
 			Info:   configuration.ResponseMessages.MissingToken,
+			Status: fiber.StatusUnauthorized,
+		})
+	}
+
+	// get payload and parse it
+	bytePayload, decodeError := utilities.DecodePayload(trimmedToken)
+	if decodeError != nil {
+		return utilities.Response(utilities.ResponseParams{
+			Ctx:    ctx,
+			Info:   configuration.ResponseMessages.InvalidToken,
+			Status: fiber.StatusUnauthorized,
+		})
+	}
+	var parsedToken TokenContent
+	parsingError := json.Unmarshal(bytePayload, &parsedToken)
+	if parsingError != nil {
+		return utilities.Response(utilities.ResponseParams{
+			Ctx:    ctx,
+			Info:   configuration.ResponseMessages.InvalidToken,
 			Status: fiber.StatusUnauthorized,
 		})
 	}
