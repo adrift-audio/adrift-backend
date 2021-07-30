@@ -1,7 +1,6 @@
 package middlewares
 
 import (
-	"context"
 	"encoding/json"
 	"strings"
 
@@ -58,11 +57,10 @@ func Authorize(ctx *fiber.Ctx) error {
 
 	// check user secret in Redis
 	key := utilities.KeyFormatter(
-		configuration.Redis.Prefixes.Secret+"asd",
+		configuration.Redis.Prefixes.Secret,
 		parsedPayload.UserID,
 	)
-	redisContext := context.Background()
-	secret, redisError := utilities.RedisClient.Get(redisContext, key).Result()
+	secret, redisError := utilities.RedisClient.Get(ctx.Context(), key).Result()
 	if redisError != nil {
 		// if error is not about the missing data
 		if redisError != utilities.RedisNil {
@@ -91,7 +89,7 @@ func Authorize(ctx *fiber.Ctx) error {
 
 		// store secret in Redis
 		redisSetError := utilities.RedisClient.Set(
-			redisContext,
+			ctx.Context(),
 			key,
 			userSecretRecord.Secret,
 			configuration.Redis.TTL,
@@ -121,7 +119,7 @@ func Authorize(ctx *fiber.Ctx) error {
 	// update EXPIRE for the record in Redis if necessary
 	if updateExpire {
 		expireError := utilities.RedisClient.Expire(
-			redisContext,
+			ctx.Context(),
 			key,
 			configuration.Redis.TTL,
 		).Err()
