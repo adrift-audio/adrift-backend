@@ -11,7 +11,7 @@ import (
 var RedisClient *redis.Client
 var ctx = context.Background()
 
-var Nil = redis.Nil
+var RedisNil = redis.Nil
 
 func ConnectRedis() error {
 	redisHost := os.Getenv("REDIS_HOST")

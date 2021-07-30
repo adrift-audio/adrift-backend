@@ -1,6 +1,6 @@
 package middlewares
 
-type TokenContent struct {
+type PayloadContent struct {
 	Client string
 	UserID string
 }

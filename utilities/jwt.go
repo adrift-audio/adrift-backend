@@ -48,7 +48,7 @@ func GenerateJWT(params GenerateJWTParams) (string, error) {
 	return signedToken, nil
 }
 
-func ParseClaims(token string, secret string) (*JWTClaims, error) {
+func ValidateToken(token string, secret string) error {
 	decoded, parsingError := JWT.ParseWithClaims(
 		token,
 		&JWTClaims{},
@@ -57,11 +57,11 @@ func ParseClaims(token string, secret string) (*JWTClaims, error) {
 		},
 	)
 	if parsingError != nil {
-		return &JWTClaims{}, parsingError
+		return parsingError
 	}
 
-	if claims, ok := decoded.Claims.(*JWTClaims); ok && decoded.Valid {
-		return claims, nil
+	if _, ok := decoded.Claims.(*JWTClaims); ok && decoded.Valid {
+		return nil
 	}
-	return &JWTClaims{}, errors.New(configuration.ResponseMessages.InvalidToken)
+	return errors.New(configuration.ResponseMessages.InvalidToken)
 }
