@@ -1,4 +1,4 @@
-package auth
+package changePassword
 
 import (
 	"github.com/gofiber/fiber/v2"

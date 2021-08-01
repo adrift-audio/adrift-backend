@@ -14,6 +14,7 @@ import (
 	"github.com/joho/godotenv"
 
 	"adrift-backend/apis/auth"
+	changePassword "adrift-backend/apis/change-password"
 	"adrift-backend/apis/index"
 	"adrift-backend/configuration"
 	"adrift-backend/database"
@@ -57,6 +58,7 @@ func main() {
 
 	auth.Setup(app)
 	index.Setup(app)
+	changePassword.Setup(app)
 
 	port := os.Getenv("PORT")
 	if port == "" {
