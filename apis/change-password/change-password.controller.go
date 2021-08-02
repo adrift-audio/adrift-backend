@@ -77,7 +77,7 @@ func changePasswordController(ctx *fiber.Ctx) error {
 	if !passwordIsValid || comparisonError != nil {
 		return utilities.Response(utilities.ResponseParams{
 			Ctx:    ctx,
-			Info:   configuration.ResponseMessages.AccessDenied,
+			Info:   configuration.ResponseMessages.OldPasswordIsInvalid,
 			Status: fiber.StatusUnauthorized,
 		})
 	}

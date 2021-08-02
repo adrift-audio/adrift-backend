@@ -26,15 +26,16 @@ var Redis = RedisStruct{
 }
 
 var ResponseMessages = ResponseMessagesStruct{
-	AccessDenied:        "ACCESS_DENIED",
-	EmailAlreadyInUse:   "EMAIL_IS_ALREADY_IN_USE",
-	InternalServerError: "INTERNAL_SERVER_ERROR",
-	InvalidData:         "INVALID_DATA",
-	InvalidEmail:        "INVALID_EMAIL",
-	InvalidToken:        "INVALID_TOKEN",
-	MissingData:         "MISSING_DATA",
-	MissingToken:        "MISSING_TOKEN",
-	Ok:                  "OK",
+	AccessDenied:         "ACCESS_DENIED",
+	EmailAlreadyInUse:    "EMAIL_IS_ALREADY_IN_USE",
+	InternalServerError:  "INTERNAL_SERVER_ERROR",
+	InvalidData:          "INVALID_DATA",
+	InvalidEmail:         "INVALID_EMAIL",
+	InvalidToken:         "INVALID_TOKEN",
+	MissingData:          "MISSING_DATA",
+	MissingToken:         "MISSING_TOKEN",
+	Ok:                   "OK",
+	OldPasswordIsInvalid: "OLD_PASSWORD_IS_INVALID",
 }
 
 var Roles = RolesStruct{

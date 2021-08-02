@@ -1,5 +1,9 @@
 package auth
 
+type GetRecoveryCodeBodyStruct struct {
+	Email string `json:"email"`
+}
+
 type SignInBodyStruct struct {
 	Client   string `json:"client"`
 	Email    string `json:"email"`

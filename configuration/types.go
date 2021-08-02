@@ -25,15 +25,16 @@ type RedisStruct struct {
 	TTL      time.Duration
 }
 type ResponseMessagesStruct struct {
-	AccessDenied        string
-	EmailAlreadyInUse   string
-	InternalServerError string
-	InvalidData         string
-	InvalidEmail        string
-	InvalidToken        string
-	MissingData         string
-	MissingToken        string
-	Ok                  string
+	AccessDenied         string
+	EmailAlreadyInUse    string
+	InternalServerError  string
+	InvalidData          string
+	InvalidEmail         string
+	InvalidToken         string
+	MissingData          string
+	MissingToken         string
+	Ok                   string
+	OldPasswordIsInvalid string
 }
 
 type RolesStruct struct {
