@@ -2,10 +2,16 @@ package changePassword
 
 import (
 	"github.com/gofiber/fiber/v2"
+
+	"adrift-backend/middlewares"
 )
 
 func Setup(app *fiber.App) {
 	group := app.Group("/api/password")
 
-	group.Post("/", changePasswordController)
+	group.Post(
+		"/",
+		middlewares.Authorize,
+		changePasswordController,
+	)
 }
