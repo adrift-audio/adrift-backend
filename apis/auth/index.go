@@ -14,6 +14,11 @@ func Setup(app *fiber.App) {
 		middlewares.Authorize,
 		completeLogoutController,
 	)
+	group.Get(
+		"/secret/:id",
+		middlewares.AuthorizeMicroservices,
+		getSecretController,
+	)
 	group.Post("/get-code", getRecoveryCodeController)
 	group.Post("/recover-account", recoverAccountController)
 	group.Post("/sign-in", signInController)

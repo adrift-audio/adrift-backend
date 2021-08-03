@@ -32,7 +32,9 @@ type ResponseMessagesStruct struct {
 	InvalidEmail         string
 	InvalidRecoveryCode  string
 	InvalidToken         string
+	InvalidUserID        string
 	MissingData          string
+	MissingPassphrase    string
 	MissingToken         string
 	Ok                   string
 	OldPasswordIsInvalid string
