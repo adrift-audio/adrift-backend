@@ -30,6 +30,7 @@ type ResponseMessagesStruct struct {
 	InternalServerError  string
 	InvalidData          string
 	InvalidEmail         string
+	InvalidRecoveryCode  string
 	InvalidToken         string
 	MissingData          string
 	MissingToken         string

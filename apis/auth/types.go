@@ -4,6 +4,11 @@ type GetRecoveryCodeBodyStruct struct {
 	Email string `json:"email"`
 }
 
+type RecoverAccounntBodyStruct struct {
+	Code     string `json:"code"`
+	Password string `json:"password"`
+}
+
 type SignInBodyStruct struct {
 	Client   string `json:"client"`
 	Email    string `json:"email"`
