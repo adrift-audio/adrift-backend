@@ -42,12 +42,6 @@ func signUpController(ctx *fiber.Ctx) error {
 	password := body.Password
 	signedAgreement := body.SignedAgreement
 
-	utilities.SendEmail(
-		email,
-		"Welcome to Adrift!",
-		"Hello "+firstName+"!\r\n"+"Welcome to Adrift!",
-	)
-
 	if client == "" || email == "" || firstName == "" ||
 		lastName == "" || password == "" || !signedAgreement {
 		return utilities.Response(utilities.ResponseParams{

@@ -13,6 +13,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/joho/godotenv"
 
+	"adrift-backend/apis/account"
 	"adrift-backend/apis/auth"
 	changePassword "adrift-backend/apis/change-password"
 	"adrift-backend/apis/index"
@@ -56,6 +57,7 @@ func main() {
 	}))
 	app.Use(logger.New())
 
+	account.Setup(app)
 	auth.Setup(app)
 	index.Setup(app)
 	changePassword.Setup(app)
