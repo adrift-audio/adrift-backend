@@ -97,6 +97,13 @@ func recoverAccountController(ctx *fiber.Ctx) error {
 			},
 		}},
 	)
+	if updateError != nil {
+		return utilities.Response(utilities.ResponseParams{
+			Ctx:    ctx,
+			Info:   configuration.ResponseMessages.InternalServerError,
+			Status: fiber.StatusInternalServerError,
+		})
+	}
 
 	newSecret, secretError := utilities.MakeHash(
 		passwordRecord.UserId + fmt.Sprintf("%v", utilities.MakeTimestamp()),
